@@ -6,7 +6,7 @@
 /*   By: adupuy <adupuy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/23 18:51:42 by adupuy            #+#    #+#             */
-/*   Updated: 2021/01/07 17:28:10 by adupuy           ###   ########.fr       */
+/*   Updated: 2021/01/18 13:39:05 by adupuy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ int	check_player(t_elts *elts)
 				elts->player.pos.x = (double)i + 0.5;
 				elts->player.pos.y = (double)j + 0.5;
 				elts->player.dir = elts->tab[j][i];
+				elts->tab[j][i] = 0;
 			}
 	}
 	if (count == 1)
@@ -98,7 +99,9 @@ int	complete_tab(t_elts *elts, int j)
 {
 	int	i;
 	int	k;
+	t_map	first_elt;
 
+	first_elt = elts->map;
 	while (++j < elts->height)
 	{
 		i = 0;
@@ -120,6 +123,7 @@ int	complete_tab(t_elts *elts, int j)
 		if (elts->map.next != NULL)
 			elts->map = *elts->map.next;
 	}
+	elts->map = first_elt;
 	return (1);
 }
 

@@ -1,34 +1,39 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.c                                    :+:      :+:    :+:   */
+/*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: adupuy <adupuy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/12/19 18:37:10 by adupuy            #+#    #+#             */
-/*   Updated: 2021/01/17 19:05:47 by adupuy           ###   ########.fr       */
+/*   Created: 2021/01/15 15:18:51 by adupuy            #+#    #+#             */
+/*   Updated: 2021/01/17 09:08:53 by adupuy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-int	get_next_line(int fd, char **line, int ret_rl)
+int		ft_my_atoi(char *line, int *i)
 {
-	int			ret;
-	char		buf[2];
-	static char	*str;
-	int			count;
+	int	res;
 
-	if (fd < 0 || !line || read(fd, 0, 0) == -1 || ret_rl == -1)
-		return (-1);
-	ret = 1;
-	while ((ret > 0) && ((count = ft_is_end_line(str)) == 0))
+	res = 0;
+	while (line[*i] == '0')
+		++*i;
+	while (line[*i] >= '0' && line[*i] <= '9')
 	{
-		ret = read(fd, buf, 1);
-		buf[ret] = '\0';
-		if (!(str = ft_my_strjoin(str, buf)))
-			return (-1);
+		res = res * 10 + (line[*i] - 48);
+		++*i;
 	}
-	ret = ft_new_line(&str, line, ret, count);
-	return (ret);
+	return (res);
+}
+
+int	color_rgb(int t, int r, int g, int b)
+{
+	int res;
+
+	res = t << 24;
+	res = res | r << 16;
+	res = res | g << 8;
+	res = res |  b;
+	return (res);
 }

@@ -6,7 +6,7 @@
 /*   By: adupuy <adupuy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/23 10:00:14 by adupuy            #+#    #+#             */
-/*   Updated: 2021/01/07 14:20:52 by adupuy           ###   ########.fr       */
+/*   Updated: 2021/01/19 16:22:38 by adupuy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,6 @@ void	init_struct_elts(t_elts *elts)
 {
 	elts->win.x = 0;
 	elts->win.y = 0;
-//	elts->win.mlx_ptr = NULL;
-//	elts->win.win_ptr = NULL;
 	elts->text.north = 0;
 	elts->text.south = 0;
 	elts->text.west = 0;
@@ -27,27 +25,35 @@ void	init_struct_elts(t_elts *elts)
 	elts->color.c[3] = 0;
 	elts->map.content = NULL;
 	elts->player.dir = 0;
-	elts->player.fov = 0.66;
-//	elts->player.pos_X = 0;
-//	elts->player.pos_Y = 0;
+	elts->player.fov = 60 * (M_PI / 180);
 }
 
-int		read_line_next(t_elts *elts, char *line, int i)
+int		read_line_next(t_elts *e, char *line, int i)
 {
 	int	ret;
 
 	ret = 0;
 	if (line[i] == 'R')
-		if ((ret = size_window(elts, line, &i, 'x')) == 0)
+		if ((ret = size_window(e, line, &i, 'x')) == 0)
 			printf("Erreur de taille de fenêtre\n");
 	if (line[i] == 'F')
-		if ((ret = color_floor(elts, line, &i, 0)) == 0)
+	{
+		ret = color_floor(e, line, &i, 0);
+		if (ret == 0)
 			printf("Erreur de couleurs sol\n");
+		else
+			e->color.f_color = color_rgb(0, e->color.f[0], e->color.f[1], e->color.f[2]);	
+	}
 	if (line[i] == 'C')
-		if ((ret = color_ceiling(elts, line, &i, 0)) == 0)
+	{
+		ret = color_ceiling(e, line, &i, 0);
+		if (ret == 0)
 			printf("Erreur de couleurs plafond\n");
+		else
+			e->color.c_color = color_rgb(0, e->color.c[0], e->color.c[1], e->color.c[2]);
+	}
 	if (line[i] == 'N' || line[i] == 'S' || line[i] == 'W' || line[i] == 'E')
-		if ((ret = path_texture(elts, line, &i)) == 0)
+		if ((ret = path_texture(e, line, &i)) == 0)
 			printf("Erreur de path\n");
 	return (ret);
 }
@@ -76,18 +82,19 @@ int		ft_parsing_elts(t_elts *elts, char *str)
 	int		fd;
 	int		ret_rl;
 
-	//init_struct_elts(elts);
+	init_struct_elts(elts);
 	if ((fd = open(str, O_RDONLY)) == -1 || read(fd, NULL, 0) == -1)
 		return (-1);
-	while (get_next_line(fd, &line) > 0)
+	ret_rl = 0;
+	while (get_next_line(fd, &line, ret_rl) > 0)
 	{
-		if ((ret_rl = read_line(elts, line)) < 0)
-			break ;
-		free(line);
+		ret_rl = read_line(elts, line);
+		if (ret_rl >= 0)
+			free(line);
 	}
 	if (ret_rl < 0)
 	{
-		if ((ft_parsing_map(fd, line, elts)) == 0)
+		if ((ft_parsing_map(fd, line, elts, 0)) == 0)
 			printf("Erreur dans la map\n");
 	}
 	else

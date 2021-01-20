@@ -6,26 +6,11 @@
 /*   By: adupuy <adupuy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/23 09:59:57 by adupuy            #+#    #+#             */
-/*   Updated: 2020/12/30 12:07:15 by adupuy           ###   ########.fr       */
+/*   Updated: 2021/01/18 10:18:37 by adupuy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
-
-int		ft_my_atoi(char *line, int *i)
-{
-	int	res;
-
-	res = 0;
-	while (line[*i] == '0')
-		++*i;
-	while (line[*i] >= '0' && line[*i] <= '9')
-	{
-		res = res * 10 + (line[*i] - 48);
-		++*i;
-	}
-	return (res);
-}
 
 int		size_window(t_elts *elts, char *line, int *i, char coord)
 {
