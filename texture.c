@@ -6,7 +6,7 @@
 /*   By: adupuy <adupuy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/18 21:59:00 by adupuy            #+#    #+#             */
-/*   Updated: 2021/01/20 19:16:39 by adupuy           ###   ########.fr       */
+/*   Updated: 2021/01/29 16:39:47 by adupuy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,39 +26,39 @@ void	clear_texture(t_elts *e)
 		mlx_destroy_image(e->win.mlx_ptr, e->text_sprite.text_ptr);
 }
 
-int	init_texture(char *text_name, t_text_data *t, t_win *win)
+int		init_texture(char *text_name, t_text_data *t, t_win *win)
 {
-	t->text_ptr = mlx_xpm_file_to_image(win->mlx_ptr, text_name, &t->width, &t->height);
+	t->text_ptr = mlx_xpm_file_to_image(win->mlx_ptr, text_name,
+						&t->width, &t->height);
 	if (t->text_ptr == NULL)
 		return (0);
-	t->addr = mlx_get_data_addr(t->text_ptr, &t->bpp, &t->size_line, &t->endian);
+	t->addr = mlx_get_data_addr(t->text_ptr, &t->bpp,
+					&t->size_line, &t->endian);
 	return (1);
 }
 
-int	check_open_file(char *name)
+int		texture(t_texture *text, t_elts *e)
 {
-	int	fd;
-	int	ret;
-
-	ret = 1;
-	fd = open(name, O_RDONLY);
-	if (fd == -1)
-		ret = 0;
-	close(fd);
-	return (ret);
-}
-
-int	texture(t_texture *text, t_elts *e)
-{
-	if (check_open_file(text->north) == 0 || init_texture(text->north, &e->text_data_n, &e->win) == 0)
+	init_text_ptr(e);
+	if (check_file(text->north, ".xpm") == 0 ||
+		check_open_file(text->north) == 0 ||
+		init_texture(text->north, &e->text_data_n, &e->win) == 0)
 		return (0);
-	if (check_open_file(text->south) == 0 || init_texture(text->south, &e->text_data_s, &e->win) == 0)
+	if (check_file(text->south, ".xpm") == 0 ||
+		check_open_file(text->south) == 0 ||
+		init_texture(text->south, &e->text_data_s, &e->win) == 0)
 		return (0);
-	if (check_open_file(text->east) == 0 || init_texture(text->east, &e->text_data_e, &e->win) == 0)
+	if (check_file(text->east, ".xpm") == 0 ||
+		check_open_file(text->east) == 0 ||
+		init_texture(text->east, &e->text_data_e, &e->win) == 0)
 		return (0);
-	if (check_open_file(text->west) == 0 || init_texture(text->west, &e->text_data_w, &e->win) == 0)
+	if (check_file(text->west, ".xpm") == 0 ||
+		check_open_file(text->west) == 0 ||
+		init_texture(text->west, &e->text_data_w, &e->win) == 0)
 		return (0);
-	if (check_open_file(text->sp) == 0 || init_texture(text->sp, &e->text_sprite, &e->win) == 0)
+	if (check_file(text->sp, ".xpm") == 0 ||
+		check_open_file(text->sp) == 0 ||
+		init_texture(text->sp, &e->text_sprite, &e->win) == 0)
 		return (0);
 	return (1);
 }
@@ -98,5 +98,5 @@ void	choose_texture(t_elts *e, int x)
 			draw_texture(e, x, &e->text_data_n);
 		else
 			draw_texture(e, x, &e->text_data_s);
-	}		
+	}
 }

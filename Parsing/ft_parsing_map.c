@@ -6,7 +6,7 @@
 /*   By: adupuy <adupuy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/23 09:58:46 by adupuy            #+#    #+#             */
-/*   Updated: 2021/01/19 16:34:01 by adupuy           ###   ########.fr       */
+/*   Updated: 2021/01/20 19:44:50 by adupuy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,39 +64,8 @@ int		check_all(t_elts *elts)
 	|| elts->text.north == 0 || elts->text.south == 0 || elts->text.west == 0
 	|| elts->text.east == 0 || elts->text.sp == 0 || elts->player.dir == 0)
 		return (0);
-//	assign_direction(&elts->player);
 	return (1);
 }
-
-/*void	new_position(t_double *s, double x, double y)
-{
-	s->x = x;
-	s->y = y;
-}*/
-
-/*void	assign_direction(t_player *p)
-{
-	if (p->dir == 30)
-	{
-		new_position(&p->dir_pl, 0.0, -1.0);
-		new_position(&p->plane, p->fov, 0.0);
-	}
-	else if (p->dir == 35)
-	{
-		new_position(&p->dir_pl, 0.0, 1.0);
-		new_position(&p->plane, p->fov, 0.0);
-	}
-	else if (p->dir == 39)
-	{
-		new_position(&p->dir_pl, -1.0, 0.0);
-		new_position(&p->plane, 0.0, -p->fov);
-	}
-	else if (p->dir == 21)
-	{
-		new_position(&p->dir_pl, 1.0, 0.0);
-		new_position(&p->plane, 0.0, p->fov);
-	}
-}*/
 
 int		is_not_empty_line(char *line, char *str)
 {

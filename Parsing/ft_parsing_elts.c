@@ -6,7 +6,7 @@
 /*   By: adupuy <adupuy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/23 10:00:14 by adupuy            #+#    #+#             */
-/*   Updated: 2021/01/19 16:22:38 by adupuy           ###   ########.fr       */
+/*   Updated: 2021/01/27 14:29:56 by adupuy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,11 +34,11 @@ int		read_line_next(t_elts *e, char *line, int i)
 
 	ret = 0;
 	if (line[i] == 'R')
-		if ((ret = size_window(e, line, &i, 'x')) == 0)
+		if ((ret = size_window(e, line, i)) == 0)
 			printf("Erreur de taille de fenêtre\n");
 	if (line[i] == 'F')
 	{
-		ret = color_floor(e, line, &i, 0);
+		ret = color_floor(e, line, i, 0);
 		if (ret == 0)
 			printf("Erreur de couleurs sol\n");
 		else
@@ -46,14 +46,14 @@ int		read_line_next(t_elts *e, char *line, int i)
 	}
 	if (line[i] == 'C')
 	{
-		ret = color_ceiling(e, line, &i, 0);
+		ret = color_ceiling(e, line, i, 0);
 		if (ret == 0)
 			printf("Erreur de couleurs plafond\n");
 		else
 			e->color.c_color = color_rgb(0, e->color.c[0], e->color.c[1], e->color.c[2]);
 	}
 	if (line[i] == 'N' || line[i] == 'S' || line[i] == 'W' || line[i] == 'E')
-		if ((ret = path_texture(e, line, &i)) == 0)
+		if ((ret = path_texture(e, line, i)) == 0)
 			printf("Erreur de path\n");
 	return (ret);
 }
@@ -84,7 +84,8 @@ int		ft_parsing_elts(t_elts *elts, char *str)
 
 	init_struct_elts(elts);
 	if ((fd = open(str, O_RDONLY)) == -1 || read(fd, NULL, 0) == -1)
-		return (-1);
+		return (0);
+		//return (exit_error("Problem opening file"));
 	ret_rl = 0;
 	while (get_next_line(fd, &line, ret_rl) > 0)
 	{

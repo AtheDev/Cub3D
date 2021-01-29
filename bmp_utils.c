@@ -1,39 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils.c                                            :+:      :+:    :+:   */
+/*   bmp_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: adupuy <adupuy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/01/15 15:18:51 by adupuy            #+#    #+#             */
-/*   Updated: 2021/01/27 13:18:58 by adupuy           ###   ########.fr       */
+/*   Created: 2021/01/29 10:14:36 by adupuy            #+#    #+#             */
+/*   Updated: 2021/01/29 10:49:33 by adupuy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-int		ft_my_atoi(char *line, int *i)
+void	set_in_char(int file_size, unsigned char *file_header, int start)
 {
-	int	res;
+	int	i;
 
-	res = 0;
-	while (line[*i] == '0')
-		++*i;
-	while (line[*i] >= '0' && line[*i] <= '9')
-	{
-		res = res * 10 + (line[*i] - 48);
-		++*i;
-	}
-	return (res);
+	i = -1;
+	while (++i < 4)
+		file_header[start++] = (unsigned char)(file_size >> (i * 8));
 }
 
-int	color_rgb(int t, int r, int g, int b)
+void	init_corr_pad(char corr_pad[4])
 {
-	int res;
-
-	res = t << 24;
-	res = res | r << 16;
-	res = res | g << 8;
-	res = res | b;
-	return (res);
+	corr_pad[0] = 0;
+	corr_pad[1] = 3;
+	corr_pad[2] = 2;
+	corr_pad[3] = 1;
 }

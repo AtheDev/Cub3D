@@ -6,19 +6,19 @@
 /*   By: adupuy <adupuy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/21 15:17:47 by adupuy            #+#    #+#             */
-/*   Updated: 2020/12/30 12:01:34 by adupuy           ###   ########.fr       */
+/*   Updated: 2021/01/27 14:28:25 by adupuy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-int	check_error_win(t_elts *elts, char *line, int *i)
+int	check_error_win(t_elts *elts, char *line, int i)
 {
-	while (line && line[*i])
+	while (line && line[i])
 	{
-		if (line[*i] != ' ')
+		if (line[i] != ' ')
 			return (0);
-		++*i;
+		++i;
 	}
 	if (elts->win.x == 0 || elts->win.y == 0)
 		return (0);
@@ -52,46 +52,40 @@ int	check_value_color(t_elts *elts, int num)
 {
 	int	i;
 
-	i = 0;
+	i = -1;
 	if (num == 1)
-		while (i < 3)
-		{
+		while (++i < 3)
 			if (elts->color.f[i] < 0 || elts->color.f[i] > 255)
 				return (0);
-			i++;
-		}
 	else
-		while (i < 3)
-		{
+		while (++i < 3)
 			if (elts->color.f[i] < 0 || elts->color.f[i] > 255)
 				return (0);
-			i++;
-		}
 	return (1);
 }
 
-int	check_path(char *line, int *i)
+int	check_path(char *line, int i)
 {
 	int	size;
 
 	size = 0;
-	if (((line[*i] == 'N' || line[*i] == 'S') && line[*i + 1] == 'O')
-		|| (line[*i] == 'W' && line[*i + 1] == 'E')
-		|| (line[*i] == 'E' && line[*i + 1] == 'A')
-		|| (line[*i] == 'S' && line[*i + 1] == ' '))
+	if (((line[i] == 'N' || line[i] == 'S') && line[i + 1] == 'O')
+		|| (line[i] == 'W' && line[i + 1] == 'E')
+		|| (line[i] == 'E' && line[i + 1] == 'A')
+		|| (line[i] == 'S' && line[i + 1] == ' '))
 	{
-		*i += 2;
-		while (line[*i] == ' ' && line[*i])
-			++*i;
-		while (ft_isprint(line[*i]) && line[*i] != ' ')
+		i += 2;
+		while (line[i] == ' ' && line[i])
+			++i;
+		while (ft_isprint(line[i]) && line[i] != ' ')
 		{
 			size++;
-			++*i;
+			++i;
 		}
-		while (line[*i] == ' ' && line[*i])
+		while (line[i] == ' ' && line[i])
 		{
-			++*i;
-			if (ft_isprint(line[*i]) && line[*i] != ' ')
+			++i;
+			if (ft_isprint(line[i]) && line[i] != ' ')
 				return (0);
 		}
 	}

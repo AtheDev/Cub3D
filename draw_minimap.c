@@ -6,7 +6,7 @@
 /*   By: adupuy <adupuy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/14 10:59:35 by adupuy            #+#    #+#             */
-/*   Updated: 2021/01/18 17:30:30 by adupuy           ###   ########.fr       */
+/*   Updated: 2021/01/29 16:44:46 by adupuy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,6 @@ void	player_render(t_elts *e)
 			x = (e->player.pos.x * size) + cos(r) * i;
 			y = (e->player.pos.y * size) + sin(r) * i;
 			put_pixel(e, x, y, 0xFF0000);
-		//	mlx_pixel_put(e->win.mlx_ptr, e->win.win_ptr, x, y, 0xFF0000);
 			i += 1.0;
 		}
 	}
@@ -38,11 +37,11 @@ void	player_render(t_elts *e)
 
 void	map_render(t_elts *e)
 {
-	double size;
-	int	i;
-	int	j;
-	int	x;
-	int	y;
+	double	size;
+	int		i;
+	int		j;
+	int		x;
+	int		y;
 
 	size = SIZE * MINI;
 	j = -1;
@@ -60,10 +59,8 @@ void	map_render(t_elts *e)
 					{
 						if (e->tab[i][j] == 1)
 							put_pixel(e, y, x, 0xFFFFFF);
-						//	mlx_pixel_put(e->win.mlx_ptr, e->win.win_ptr, y, x, 0xFFFFFF);
 						else
 							put_pixel(e, y, x, 0x00FF00);
-						//	mlx_pixel_put(e->win.mlx_ptr, e->win.win_ptr, y, x, 0x00FF00);
 					}
 				}
 			}
@@ -84,7 +81,6 @@ void	ray_render(t_elts *e)
 		x = (e->player.pos.x * size) + cos(e->ray.angle) * i;
 		y = (e->player.pos.y * size) + sin(e->ray.angle) * i;
 		put_pixel(e, x, y, 0x0000FF);
-	//	mlx_pixel_put(e->win.mlx_ptr, e->win.win_ptr, x, y, 0x0000FF);
 		i += 1.0;
 	}
 }

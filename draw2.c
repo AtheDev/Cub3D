@@ -6,7 +6,7 @@
 /*   By: adupuy <adupuy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/07 19:36:01 by adupuy            #+#    #+#             */
-/*   Updated: 2021/01/20 14:55:46 by adupuy           ###   ########.fr       */
+/*   Updated: 2021/01/29 13:22:20 by adupuy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,9 +48,13 @@ int	keyExit(t_elts *e)
 		clear_texture(e);
 		if (e->img.img_ptr != NULL)
 			mlx_destroy_image(e->win.mlx_ptr, e->img.img_ptr);
-		mlx_destroy_window(e->win.mlx_ptr, e->win.win_ptr);
-		mlx_destroy_display(e->win.mlx_ptr);
-		free(e->win.mlx_ptr);
+		if (e->win.win_ptr != NULL)
+			mlx_destroy_window(e->win.mlx_ptr, e->win.win_ptr);
+		if (e->win.mlx_ptr)
+		{
+			mlx_destroy_display(e->win.mlx_ptr);
+			free(e->win.mlx_ptr);
+		}
 		exit(0);
 	return (1);
 }
@@ -116,14 +120,16 @@ void	draw_rect(int x, int start, t_elts *e, int color)
 	}
 }
 
-void	cast_all_rays(t_elts *e)
+void	cast_all_rays(t_elts *e, double *buf)
 {
 	int x = -1;
+
 	e->ray.angle = e->player.rotate_radius - (e->player.fov / 2);
 	while (++x < e->win.x)
 	{
 		init_ray(&e->ray);
 		ray_cast(e, x);
+		buf[x] = e->ray.dist;
 		e->ray.angle += e->player.fov / e->win.x;	
 	}
 }
@@ -142,9 +148,12 @@ void	draw_rect2(t_elts *e)
 
 int	update(t_elts *e)
 {
+	double	buff[e->win.x];
+
 	player_update(e);
 	draw_rect2(e);
-	cast_all_rays(e);
+	cast_all_rays(e, buff);
+	render_sprites(buff, e);
 //	map_render(e);
 //	player_render(e);
 	mlx_put_image_to_window(e->win.mlx_ptr, e->win.win_ptr, e->img.img_ptr, 0, 0);

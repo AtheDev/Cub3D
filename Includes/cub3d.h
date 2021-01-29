@@ -6,7 +6,7 @@
 /*   By: adupuy <adupuy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/19 14:42:47 by adupuy            #+#    #+#             */
-/*   Updated: 2021/01/20 18:16:53 by adupuy           ###   ########.fr       */
+/*   Updated: 2021/01/29 14:56:09 by adupuy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,6 @@
 # include <mlx.h>
 # include "libft.h"
 
-# define PI 3.14
 # define W 119
 # define A 97
 # define S 115
@@ -38,6 +37,11 @@
 # define ESC 65307
 # define SIZE 32
 # define MINI 0.2
+
+# define FILE_HEADER_SIZE 14
+# define INFO_HEADER_SIZE 40
+# define BPP 3
+# define BMP_FILE_NAME "bitmap_image.bmp"
 
 typedef struct	s_double
 {
@@ -144,6 +148,52 @@ typedef struct	s_texture
 	char	*sp;
 }				t_texture;
 
+typedef struct	s_sprite
+{
+	t_double	pos;
+	double		dist;
+	int		visible;
+	double		angle;
+	int		top_pixel;
+	int		bottom_pixel;
+	int		width_sprite;
+	int		height_sprite;
+	t_pos		text_offset;
+}				t_sprite;
+
+typedef struct	s_bmp_utils
+{
+	int	color;
+	char	*dst;
+	int	nb_pad;
+	unsigned char	tab_pixel[3];
+	char	corr_pad[4];
+}				t_bmp_utils;
+
+typedef struct	s_img_head
+{
+	int	size_img_head;
+	int	width;
+	int	height;
+	short	nb_plan;
+	short	bpp;
+	int	compress;
+	int	size_img;
+	int	res_h;
+	int	res_v;
+	int	color_pal;
+	int	color_imp_pal;
+}				t_img_head;
+
+typedef struct	s_bmp_head
+{
+	char	sign[2];
+	int	size_tot;
+	int	reserve;
+	int	offset_img;
+	struct s_img_head	img_head;
+}				t_bmp_head;
+
 typedef struct	s_elts
 {
 	t_win		win;
@@ -157,10 +207,13 @@ typedef struct	s_elts
 	t_text_data	text_data_s;
 	t_text_data	text_data_e;
 	t_text_data	text_data_w;
-	t_text_data	text_sprite;
+	t_text_data	text_sprite;	
 	int			**tab;
 	int			width;
 	int			height;
+	int			num_sp;
+	t_sprite	*tab_sp;
+	
 }				t_elts;
 
 /*
@@ -184,10 +237,10 @@ int				read_line(t_elts *elts, char *line);
 */
 int				ft_my_atoi(char *line, int *i);
 int				color_rgb(int t, int r, int g, int b);
-int				size_window(t_elts *elts, char *line, int *i, char coord);
-int				color_floor(t_elts *elts, char *line, int *i, int ind);
-int				color_ceiling(t_elts *elts, char *lne, int *i, int ind);
-int				path_texture(t_elts *elts, char *line, int *i);
+int				size_window(t_elts *elts, char *line, int i);
+int				color_floor(t_elts *elts, char *line, int i, int ind);
+int				color_ceiling(t_elts *elts, char *lne, int i, int ind);
+int				path_texture(t_elts *elts, char *line, int i);
 
 /*
 	********* PARSING_MAP *********
@@ -200,10 +253,10 @@ void			new_position(t_double *s, double x, double y);
 /*
 	********* CHECK_ERRORS *********
 */
-int				check_error_win(t_elts *elts, char *line, int *i);
+int				check_error_win(t_elts *elts, char *line, int i);
 int				check_error_color(char *line, int i);
 int				check_value_color(t_elts *elts, int num);
-int				check_path(char *line, int *i);
+int				check_path(char *line, int i);
 
 /*
 	********* CHECK_MAP *********
@@ -231,6 +284,7 @@ int				update(t_elts *e);
 int				keyPress(int key, t_elts *param);
 int				keyRelease(int key, t_elts *param);
 int				keyExit(t_elts *e);
+void			cast_all_rays(t_elts *e, double *buff);
 
 /*
 	********** RAYCASTER_UTILS **********
@@ -269,5 +323,37 @@ void			draw_texture(t_elts *e, int x, t_text_data *text);
 int				find_x(t_elts *e, t_text_data *text);
 int				find_y(int y, t_elts *e, t_text_data *text);
 int				find_color(int x, int y, t_text_data *text);
+void			init_text_ptr(t_elts *e);
 
+/*
+	********** SPRITE **********
+*/
+int				init_sprite(t_elts *e);
+void			render_sprites(double *buff, t_elts *e);
+
+/*
+	********** SPRITE_UTILS **********
+*/
+int				count_sprite(t_elts *e);
+void			complete_tab_sprite(t_elts *e);
+void			find_angle(t_elts *e, int i);
+void			sort_sprites(t_elts *e);
+void			find_dist(t_elts *e);
+
+/*
+	********** BMP **********
+*/
+int	generate_bmp_image(t_elts *e);
+
+/*
+	********** BMP_UTILS **********
+*/
+void			set_in_char(int file_size, unsigned char *file_header, int start);
+void			init_corr_pad(char corr_pad[4]);
+
+/*
+	********** MAIN **********
+*/
+int				exit_error(char *str, t_elts *e);
+int				check_file(char *str, char *name);
 #endif

@@ -6,7 +6,7 @@
 /*   By: adupuy <adupuy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/14 13:05:52 by adupuy            #+#    #+#             */
-/*   Updated: 2021/01/20 18:08:20 by adupuy           ###   ########.fr       */
+/*   Updated: 2021/01/25 19:16:10 by adupuy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,11 +17,12 @@ int		is_wall(double x, double y, t_elts *e)
 	int	map_ind_x;
 	int	map_ind_y;
 
-	if (x < 0 || x > e->width || y < 0 || y > e->height)
-		return (1);
 	map_ind_x = floor(x);
 	map_ind_y = floor(y);
-	if (e->tab[map_ind_y][map_ind_x] != 0)
+	if (map_ind_x < 0 || map_ind_x >= e->width ||
+		map_ind_y < 0 || map_ind_y >= e->height)
+		return (1);
+	if (e->tab[map_ind_y][map_ind_x] == 1)
 		return (1);
 	return (0);
 }
