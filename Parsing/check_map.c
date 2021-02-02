@@ -6,143 +6,123 @@
 /*   By: adupuy <adupuy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/23 18:51:42 by adupuy            #+#    #+#             */
-/*   Updated: 2021/01/18 13:39:05 by adupuy           ###   ########.fr       */
+/*   Updated: 2021/02/02 11:19:59 by adupuy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-int	check_player(t_elts *elts)
+int		check_player(t_elts *e, int count)
 {
 	int	i;
 	int	j;
-	int	count;
 
 	j = -1;
-	count = 0;
-	while (++j < elts->height)
+	while (++j < e->height)
 	{
 		i = -1;
-		while (++i < elts->width)
-			if (elts->tab[j][i] + 48 == 69 || elts->tab[j][i] + 48 == 78 ||
-				elts->tab[j][i] + 48 == 83 || elts->tab[j][i] + 48 == 87)
+		while (++i < e->width)
+			if (e->tab[j][i] + 48 == 69 || e->tab[j][i] + 48 == 78 ||
+				e->tab[j][i] + 48 == 83 || e->tab[j][i] + 48 == 87)
 			{
 				count++;
-				elts->player.pos.x = (double)i + 0.5;
-				elts->player.pos.y = (double)j + 0.5;
-				elts->player.dir = elts->tab[j][i];
-				elts->tab[j][i] = 0;
+				e->player.pos.x = (double)i + 0.5;
+				e->player.pos.y = (double)j + 0.5;
+				e->player.dir = e->tab[j][i];
+				e->tab[j][i] = 0;
 			}
 	}
-	if (count == 1)
+	if (count == 0)
+		return (error_msg("Error\nNo player in the map.\n"));
+	else if (count > 1)
+		return (error_msg("Error\nToo many players in the map.\n"));
+	else
 		return (1);
-	return (0);
 }
 
-int	check_column(t_elts *elts)
+int		check_column(t_elts *e, int x)
 {
 	int	i;
-	int	j;
-	int	count;
 
 	i = -1;
-	count = 0;
-	while (++i < elts->width)
+	while (++i < e->height)
 	{
-		j = 0;
-		while (j < elts->height)
-		{
-			if (j + 1 == elts->height && count != 0)
-				return (0);
-			else if (elts->tab[j][i] != -16)
-			{
-				count++;
-				break ;
-			}
-			else
-				j++;
-		}
+		if (e->tab[i][x] == 0 || e->tab[i][x] == 2 || e->tab[i][x] == 21
+		|| e->tab[i][x] == 30 || e->tab[i][x] == 35 || e->tab[i][x] == 39)
+			return (msg(1));
 	}
 	return (1);
 }
 
-int	check_space(t_elts *elts, int num)
+int		check_space(t_elts *e, int num, int j, int i)
 {
-	int	i;
-	int	j;
-
-	j = -1;
-	while (++j < elts->height)
+	while (++j < e->height)
 	{
 		i = -1;
-		while (++i < elts->width)
-		{
-			if ((j == 0 && elts->tab[j][i] == num) ||
-			((j == elts->height - 1) && elts->tab[j][i] == num))
-				return (0);
-			else if (j > 0 && elts->tab[j][i] == num)
-				if (elts->tab[j][i - 1] == -16
-				|| elts->tab[j][i + 1] == -16
-				|| elts->tab[j + 1][i] == -16
-				|| elts->tab[j - 1][i] == -16
-				|| elts->tab[j - 1][i - 1] == -16
-				|| elts->tab[j - 1][i + 1] == -16
-				|| elts->tab[j + 1][i - 1] == -16
-				|| elts->tab[j + 1][i + 1] == -16)
-					return (0);
-		}
+		while (++i < e->width)
+			if ((j == 0 && e->tab[j][i] == num) ||
+			((j == e->height - 1) && e->tab[j][i] == num))
+				return (msg(1));
+			else if (j > 0 && e->tab[j][i] == num)
+				if (e->tab[j][i - 1] == -16
+				|| e->tab[j][i + 1] == -16
+				|| e->tab[j + 1][i] == -16
+				|| e->tab[j - 1][i] == -16
+				|| e->tab[j - 1][i - 1] == -16
+				|| e->tab[j - 1][i + 1] == -16
+				|| e->tab[j + 1][i - 1] == -16
+				|| e->tab[j + 1][i + 1] == -16)
+					return (msg(1));
 	}
 	return (1);
 }
 
-int	complete_tab(t_elts *elts, int j)
+void	complete_tab(t_elts *e, int j)
 {
-	int	i;
-	int	k;
+	int		i;
+	int		k;
 	t_map	first_elt;
 
-	first_elt = elts->map;
-	while (++j < elts->height)
+	first_elt = e->map;
+	while (++j < e->height)
 	{
 		i = 0;
 		k = -1;
-		while (i < elts->width && elts->map.content[++k] == ' ')
+		while (i < e->width && e->map.content[++k] == ' ')
+			e->tab[j][i++] = -16;
+		while (i < e->width)
 		{
-			elts->tab[j][i++] = -16;
-			if ((i + 1) == elts->width)
-				return (0);
-		}
-		while (i < elts->width)
-		{
-			if (elts->map.content[k] == '\0')
-				while (i < elts->width)
-					elts->tab[j][i++] = -16;
+			if (e->map.content[k] == '\0')
+				while (i < e->width)
+					e->tab[j][i++] = -16;
 			else
-				elts->tab[j][i++] = elts->map.content[k++] - 48;
+				e->tab[j][i++] = e->map.content[k++] - 48;
 		}
-		if (elts->map.next != NULL)
-			elts->map = *elts->map.next;
+		if (e->map.next != NULL)
+			e->map = *e->map.next;
 	}
-	elts->map = first_elt;
-	return (1);
+	e->map = first_elt;
 }
 
-int	check_map(t_elts *elts)
+int		check_map(t_elts *e)
 {
 	int i;
 	int j;
 
 	i = -1;
 	j = -1;
-	if (!(elts->tab = malloc(sizeof(int*) * elts->height)))
-		return (0);
-	while (++j < elts->height)
-		if (!(elts->tab[++i] = malloc(sizeof(int**) * elts->width)))
-			return (0);
-	if ((complete_tab(elts, -1) == 0) || (check_player(elts) == 0)
-	|| ((check_space(elts, 0) == 0) || (check_space(elts, 2) == 0)
-	|| (check_space(elts, elts->player.dir)) == 0) ||
-	(check_column(elts) == 0))
+	resize_map(e, -1, 0);
+	if (!(e->tab = malloc(sizeof(int*) * e->height)))
+		return (msg(2));
+	while (++j < e->height)
+		if (!(e->tab[++i] = malloc(sizeof(int**) * e->width)))
+			return (msg(2));
+	complete_tab(e, -1);
+	if ((check_player(e, 0) == 0) || (check_space(e, 0, -1, -1) == 0)
+	|| (check_space(e, 2, -1, -1) == 0)
+	|| (check_space(e, e->player.dir, -1, -1) == 0)
+	|| (check_column(e, e->width - 1) == 0)
+	|| (check_column(e, 0) == 0))
 		return (0);
 	return (1);
 }

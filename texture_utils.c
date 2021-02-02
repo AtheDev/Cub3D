@@ -6,7 +6,7 @@
 /*   By: adupuy <adupuy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/19 15:13:43 by adupuy            #+#    #+#             */
-/*   Updated: 2021/01/29 16:41:36 by adupuy           ###   ########.fr       */
+/*   Updated: 2021/01/30 16:41:37 by adupuy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,14 +63,4 @@ int		check_open_file(char *name)
 		ret = 0;
 	close(fd);
 	return (ret);
-}
-
-void	init_text_ptr(t_elts *e)
-{
-	e->text_data_n.text_ptr = NULL;
-	e->text_data_s.text_ptr = NULL;
-	e->text_data_w.text_ptr = NULL;
-	e->text_data_e.text_ptr = NULL;
-	e->text_sprite.text_ptr = NULL;
-	e->tab_sp = NULL;
 }

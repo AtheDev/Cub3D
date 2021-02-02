@@ -6,7 +6,7 @@
 /*   By: adupuy <adupuy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/14 13:01:16 by adupuy            #+#    #+#             */
-/*   Updated: 2021/01/25 17:39:38 by adupuy           ###   ########.fr       */
+/*   Updated: 2021/02/02 10:51:05 by adupuy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,12 +98,9 @@ void	compare_dist(t_elts *e)
 
 void	ray_cast(t_elts *e, int x)
 {
-	double	draw_start;
-
 	find_side_horz(e, 0);
 	find_side_vert(e, 0);
 	compare_dist(e);
-/*	ray_render(e);*/
 	e->ray.dist_correct = e->ray.dist *
 		cos(e->ray.angle - e->player.rotate_radius);
 	e->ray.dist_project = (e->win.x / 2) / tan(e->player.fov / 2);
@@ -112,7 +109,22 @@ void	ray_cast(t_elts *e, int x)
 	e->ray.bottom_pixel = (e->win.y / 2) + (e->ray.wall_height / 2);
 	choose_texture(e, x);
 	e->ray.wall_height = e->ray.top_pixel;
-	draw_rect(x, 0, e, e->color.c_color);
+	draw_line(x, 0, e, e->color.c_color);
 	e->ray.wall_height = e->win.y - e->ray.bottom_pixel;
-	draw_rect(x, e->ray.bottom_pixel, e, e->color.f_color);
+	draw_line(x, e->ray.bottom_pixel, e, e->color.f_color);
+}
+
+void	cast_all_rays(t_elts *e, double *buf)
+{
+	int x;
+
+	x = -1;
+	e->ray.angle = e->player.rotate_radius - (e->player.fov / 2);
+	while (++x < e->win.x)
+	{
+		init_ray(&e->ray);
+		ray_cast(e, x);
+		buf[x] = e->ray.dist;
+		e->ray.angle += e->player.fov / e->win.x;
+	}
 }

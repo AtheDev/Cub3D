@@ -6,7 +6,7 @@
 /*   By: adupuy <adupuy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/14 10:59:35 by adupuy            #+#    #+#             */
-/*   Updated: 2021/01/29 16:44:46 by adupuy           ###   ########.fr       */
+/*   Updated: 2021/02/02 10:59:09 by adupuy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,11 +35,8 @@ void	player_render(t_elts *e)
 	}
 }
 
-void	map_render(t_elts *e)
+void	map_render(t_elts *e, int i, int j, int size)
 {
-	double	size;
-	int		i;
-	int		j;
 	int		x;
 	int		y;
 

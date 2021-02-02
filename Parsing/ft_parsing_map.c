@@ -6,7 +6,7 @@
 /*   By: adupuy <adupuy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/23 09:58:46 by adupuy            #+#    #+#             */
-/*   Updated: 2021/01/20 19:44:50 by adupuy           ###   ########.fr       */
+/*   Updated: 2021/02/01 19:07:30 by adupuy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 t_map	*ft_new_and_lstadd_back(t_map *map, char *content)
 {
 	t_map	*new;
-	t_map	*first_elt;
+	t_map	*first_elts;
 
 	if (!content)
 		return (NULL);
@@ -31,39 +31,41 @@ t_map	*ft_new_and_lstadd_back(t_map *map, char *content)
 	}
 	else
 	{
-		first_elt = map;
+		first_elts = map;
 		while (map->next)
 			map = map->next;
 		map->next = new;
-		map = first_elt;
+		map = first_elts;
 	}
 	return (new);
 }
 
-int		check_all(t_elts *elts)
+int		check_all(t_elts *e)
 {
 	int	i;
 	int	j;
 
 	j = -1;
-	while (++j < elts->height)
+	while (++j < e->height)
 	{
 		i = 0;
-		while (i < elts->width)
+		while (i < e->width)
 		{
-			if (elts->tab[j][i] == -16 || elts->tab[j][i] == 0 ||
-			elts->tab[j][i] == 1 || elts->tab[j][i] == 21 ||
-			elts->tab[j][i] == 30 || elts->tab[j][i] == 35 ||
-			elts->tab[j][i] == 39 || elts->tab[j][i] == 2)
+			if (e->tab[j][i] == -16 || e->tab[j][i] == 0 ||
+			e->tab[j][i] == 1 || e->tab[j][i] == 21 ||
+			e->tab[j][i] == 30 || e->tab[j][i] == 35 ||
+			e->tab[j][i] == 39 || e->tab[j][i] == 2)
 				i++;
 			else
-				return (0);
+				return (msg(3));
 		}
 	}
-	if (elts->win.x == 0 || elts->color.f[3] == 0 || elts->color.c[3] == 0
-	|| elts->text.north == 0 || elts->text.south == 0 || elts->text.west == 0
-	|| elts->text.east == 0 || elts->text.sp == 0 || elts->player.dir == 0)
-		return (0);
+	if (e->win.x == 0 || e->color.f[3] == 0 || e->color.c[3] == 0
+	|| e->text.north == 0 || e->text.south == 0 || e->text.west == 0
+	|| e->text.east == 0 || e->text.sp == 0 || e->player.dir == 0)
+		return (msg(4));
+	if (check_double_texture(e) == 0)
+		return (error_msg("Error\nTwo identical textures.\n"));
 	return (1);
 }
 
@@ -87,30 +89,45 @@ int		is_not_empty_line(char *line, char *str)
 	return (0);
 }
 
-int		ft_parsing_map(int fd, char *line, t_elts *elts, int count)
+void	parse_map(int *stop, int fd, t_elts *e, char **line)
 {
-	elts->width = ft_strlen(line);
-	elts->height = 1;
-	if (!ft_new_and_lstadd_back(&elts->map, ft_strdup(line)))
-		return (0);
-	while (get_next_line(fd, &line, 0) > 0)
+	while (get_next_line(fd, line, 0) > 0)
 	{
-		if (is_not_empty_line(line, "012NSEW") == 1 && count > 0)
-			return (0);
-		else if (is_not_empty_line(line, "012NSEW") == 1 && count == 0)
+		if (*line[0] != '\0' && is_a_forbidden_char(*line) == 0)
+			*stop = 1;
+		else if (*line[0] == '\0' || is_not_empty_line(*line, "012NSEW ") == 1)
 		{
-			if (elts->width < ft_strlen(line))
-				elts->width = ft_strlen(line);
-			elts->height++;
-			if (!ft_new_and_lstadd_back(&elts->map, ft_strdup(line)))
-				return (0);
+			if (e->width < (int)ft_strlen(*line))
+				e->width = ft_strlen(*line);
+			e->height++;
+			if (!ft_new_and_lstadd_back(&e->map, ft_strdup(*line)))
+				*stop = 1;
 		}
-		else
-			count++;
-		free(line);
+		if (*stop != 1)
+			free(*line);
+		if (*stop == 1)
+			break ;
 	}
+}
+
+int		ft_parsing_map(int fd, char *line, t_elts *e)
+{
+	int	stop;
+
+	stop = 0;
+	e->width = ft_strlen(line);
+	e->height = 1;
+	if (!ft_new_and_lstadd_back(&e->map, ft_strdup(line)))
+		stop = 1;
 	free(line);
-	if (check_map(elts) == 0 || check_all(elts) == 0)
+	if (stop == 0)
+		parse_map(&stop, fd, e, &line);
+	if (stop == 1)
+		get_next_line(fd, &line, 2);
+	free(line);
+	if (stop == 1)
+		return (msg(3));
+	if (check_map(e) == 0 || check_all(e) == 0)
 		return (0);
 	return (1);
 }

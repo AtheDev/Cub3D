@@ -6,7 +6,7 @@
 /*   By: adupuy <adupuy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/21 11:28:12 by adupuy            #+#    #+#             */
-/*   Updated: 2021/01/29 16:03:50 by adupuy           ###   ########.fr       */
+/*   Updated: 2021/01/29 17:21:12 by adupuy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,6 @@ void	find_angle(t_elts *e, int i)
 	double	dist_x;
 	double	dist_y;
 	double	angle_player_sp;
-	double	diff_angle;
 
 	while (++i < e->num_sp)
 	{

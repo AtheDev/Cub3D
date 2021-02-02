@@ -6,7 +6,7 @@
 /*   By: adupuy <adupuy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/19 18:37:10 by adupuy            #+#    #+#             */
-/*   Updated: 2021/01/17 19:05:47 by adupuy           ###   ########.fr       */
+/*   Updated: 2021/01/30 21:54:20 by adupuy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,11 @@ int	get_next_line(int fd, char **line, int ret_rl)
 
 	if (fd < 0 || !line || read(fd, 0, 0) == -1 || ret_rl == -1)
 		return (-1);
+	if (ret_rl == 2)
+	{
+		free(str);
+		return (0);
+	}
 	ret = 1;
 	while ((ret > 0) && ((count = ft_is_end_line(str)) == 0))
 	{

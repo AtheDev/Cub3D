@@ -6,13 +6,13 @@
 /*   By: adupuy <adupuy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/21 15:17:47 by adupuy            #+#    #+#             */
-/*   Updated: 2021/01/27 14:28:25 by adupuy           ###   ########.fr       */
+/*   Updated: 2021/02/02 11:17:29 by adupuy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-int	check_error_win(t_elts *elts, char *line, int i)
+int	check_error_win(t_elts *e, char *line, int i)
 {
 	while (line && line[i])
 	{
@@ -20,7 +20,7 @@ int	check_error_win(t_elts *elts, char *line, int i)
 			return (0);
 		++i;
 	}
-	if (elts->win.x == 0 || elts->win.y == 0)
+	if (e->win.x == 0 || e->win.y == 0)
 		return (0);
 	return (1);
 }
@@ -48,19 +48,23 @@ int	check_error_color(char *line, int i)
 	return (0);
 }
 
-int	check_value_color(t_elts *elts, int num)
+int	check_value_color(t_elts *e, int num)
 {
 	int	i;
 
 	i = -1;
 	if (num == 1)
+	{
 		while (++i < 3)
-			if (elts->color.f[i] < 0 || elts->color.f[i] > 255)
+			if (e->color.f[i] < 0 || e->color.f[i] > 255)
 				return (0);
+	}
 	else
+	{
 		while (++i < 3)
-			if (elts->color.f[i] < 0 || elts->color.f[i] > 255)
+			if (e->color.f[i] < 0 || e->color.f[i] > 255)
 				return (0);
+	}
 	return (1);
 }
 
@@ -82,12 +86,28 @@ int	check_path(char *line, int i)
 			size++;
 			++i;
 		}
-		while (line[i] == ' ' && line[i])
+		while (line[i])
 		{
-			++i;
-			if (ft_isprint(line[i]) && line[i] != ' ')
+			if (line[i] != ' ')
 				return (0);
+			i++;
 		}
 	}
 	return (size);
+}
+
+int	check_double_texture(t_elts *e)
+{
+	if (ft_strcmp(e->text.north, e->text.south) == 0 ||
+	ft_strcmp(e->text.north, e->text.east) == 0 ||
+	ft_strcmp(e->text.north, e->text.west) == 0 ||
+	ft_strcmp(e->text.north, e->text.sp) == 0 ||
+	ft_strcmp(e->text.south, e->text.east) == 0 ||
+	ft_strcmp(e->text.south, e->text.west) == 0 ||
+	ft_strcmp(e->text.south, e->text.sp) == 0 ||
+	ft_strcmp(e->text.east, e->text.west) == 0 ||
+	ft_strcmp(e->text.east, e->text.sp) == 0 ||
+	ft_strcmp(e->text.west, e->text.sp) == 0)
+		return (0);
+	return (1);
 }

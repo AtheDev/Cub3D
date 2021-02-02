@@ -6,7 +6,7 @@
 /*   By: adupuy <adupuy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/21 10:38:01 by adupuy            #+#    #+#             */
-/*   Updated: 2021/01/29 16:33:32 by adupuy           ###   ########.fr       */
+/*   Updated: 2021/02/02 11:32:50 by adupuy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,24 +20,6 @@ int		init_sprite(t_elts *e)
 		return (0);
 	complete_tab_sprite(e);
 	return (1);
-}
-
-int		find_color2(int x, int y, t_text_data *text)
-{
-	char	*dst;
-	int		texture_color;
-
-	if (x < 0)
-		x = 0;
-	if (y < 0)
-		y = 0;
-	if (x > text->width)
-		x = text->width;
-	if (y > text->height)
-		y = text->height;
-	dst = text->addr + (y * text->size_line + x * (text->bpp / 8));
-	texture_color = (*(unsigned int*)dst);
-	return (texture_color);
 }
 
 void	draw_sprite_texture(t_sprite *sp, t_elts *e, int x, int first_x)
