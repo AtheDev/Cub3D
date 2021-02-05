@@ -6,7 +6,7 @@
 /*   By: adupuy <adupuy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/19 14:42:47 by adupuy            #+#    #+#             */
-/*   Updated: 2021/02/05 10:57:55 by adupuy           ###   ########.fr       */
+/*   Updated: 2021/02/05 11:29:29 by adupuy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -252,7 +252,7 @@ int				read_line_next(t_elts *e, char *line, int i);
 int				size_window(t_elts *e, char *line, int i);
 int				color_floor(t_elts *e, char *line, int i, int ind);
 int				color_ceiling(t_elts *e, char *lne, int i, int ind);
-int				path_texture(t_elts *e, char *line, int i);
+int				path_texture(t_elts *e, char *line, int i, int count);
 char			*ft_subtext(char *str, char *line, int i, int count);
 
 /*
@@ -261,7 +261,7 @@ char			*ft_subtext(char *str, char *line, int i, int count);
 int				ft_parsing_map(int fd, char *line, t_elts *elts);
 void			parse_map(int *stop, int fd, t_elts *e, char **line);
 t_map			*ft_new_and_lstadd_back(t_map *map, char *content);
-int				check_all(t_elts *elts);
+int				check_all(t_elts *elts, int i, int j);
 int				is_not_empty_line(char *line, char *str);
 
 /*

@@ -6,7 +6,7 @@
 /*   By: adupuy <adupuy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/23 09:59:57 by adupuy            #+#    #+#             */
-/*   Updated: 2021/02/04 20:51:47 by adupuy           ###   ########.fr       */
+/*   Updated: 2021/02/05 11:30:35 by adupuy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,14 +104,13 @@ char	*ft_subtext(char *str, char *line, int i, int count)
 
 int		path_texture(t_elts *e, char *line, int i)
 {
-	int	count;
-
 	if ((count = check_path(line, i)) == 0)
 		return (0);
 	if ((line[i] == 'N' && e->text.north != 0) || (line[i] == 'W'
 	&& e->text.west != 0) || (line[i] == 'E' && e->text.east != 0)
 	|| (line[i] == 'S' && line[i + 1] == 'O' && e->text.south != 0)
-	|| (line[i] == 'S' && line[i + 1] == ' ' && (e->text.sp != 0 && e->text.sp2 != 0)))
+	|| (line[i] == 'S' && line[i + 1] == ' ' &&
+	(e->text.sp != 0 && e->text.sp2 != 0)))
 		return (0);
 	if (line[i] == 'N')
 		e->text.north = ft_subtext(e->text.north, line, i + 2, count);

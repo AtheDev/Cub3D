@@ -6,7 +6,7 @@
 /*   By: adupuy <adupuy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/23 09:58:46 by adupuy            #+#    #+#             */
-/*   Updated: 2021/02/05 09:18:44 by adupuy           ###   ########.fr       */
+/*   Updated: 2021/02/05 11:30:11 by adupuy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,12 +40,8 @@ t_map	*ft_new_and_lstadd_back(t_map *map, char *content)
 	return (new);
 }
 
-int		check_all(t_elts *e)
+int		check_all(t_elts *e, int i, int j)
 {
-	int	i;
-	int	j;
-
-	j = -1;
 	while (++j < e->height)
 	{
 		i = 0;
@@ -60,9 +56,10 @@ int		check_all(t_elts *e)
 				return (msg(3));
 		}
 	}
-	if (e->win.x == 0 || e->color.f[3] == 0 || e->color.c[3] == 0 || e->text.north == 0
-	|| e->text.south == 0 || e->text.west == 0 || e->text.east == 0 ||
-	e->text.sp == 0 || e->text.sp == 0 || e->player.dir == 0)
+	if (e->win.x == 0 || e->color.f[3] == 0 || e->color.c[3] == 0 ||
+	e->text.north == 0 || e->text.south == 0 || e->text.west == 0 ||
+	e->text.east == 0 || e->text.sp == 0 || e->text.sp2 == 0 ||
+	e->player.dir == 0)
 		return (msg(4));
 	if (check_double_texture(e) == 0)
 		return (error_msg("Error\nTwo identical textures.\n"));
@@ -127,7 +124,7 @@ int		ft_parsing_map(int fd, char *line, t_elts *e)
 	free(line);
 	if (stop == 1)
 		return (msg(3));
-	if (check_map(e) == 0 || check_all(e) == 0)
+	if (check_map(e) == 0 || check_all(e, 0, -1) == 0)
 		return (0);
 	return (1);
 }

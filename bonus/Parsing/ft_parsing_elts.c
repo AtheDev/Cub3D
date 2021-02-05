@@ -6,7 +6,7 @@
 /*   By: adupuy <adupuy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/23 10:00:14 by adupuy            #+#    #+#             */
-/*   Updated: 2021/02/04 21:15:23 by adupuy           ###   ########.fr       */
+/*   Updated: 2021/02/05 11:29:11 by adupuy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ int		read_line_next(t_elts *e, char *line, int i)
 			e->color.c[1], e->color.c[2]);
 	}
 	if (line[i] == 'N' || line[i] == 'S' || line[i] == 'W' || line[i] == 'E')
-		if (path_texture(e, line, i) == 0)
+		if (path_texture(e, line, i, 0) == 0)
 			return (msg2(4));
 	return (1);
 }
