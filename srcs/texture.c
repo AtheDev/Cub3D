@@ -6,7 +6,7 @@
 /*   By: adupuy <adupuy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/18 21:59:00 by adupuy            #+#    #+#             */
-/*   Updated: 2021/01/30 16:41:40 by adupuy           ###   ########.fr       */
+/*   Updated: 2021/02/02 17:53:43 by adupuy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,25 +39,11 @@ int		init_texture(char *text_name, t_text_data *t, t_win *win)
 
 int		texture(t_texture *text, t_elts *e)
 {
-	if (check_file(text->north, ".xpm") == 0 ||
-		check_open_file(text->north) == 0 ||
-		init_texture(text->north, &e->text_data_n, &e->win) == 0)
-		return (0);
-	if (check_file(text->south, ".xpm") == 0 ||
-		check_open_file(text->south) == 0 ||
-		init_texture(text->south, &e->text_data_s, &e->win) == 0)
-		return (0);
-	if (check_file(text->east, ".xpm") == 0 ||
-		check_open_file(text->east) == 0 ||
-		init_texture(text->east, &e->text_data_e, &e->win) == 0)
-		return (0);
-	if (check_file(text->west, ".xpm") == 0 ||
-		check_open_file(text->west) == 0 ||
-		init_texture(text->west, &e->text_data_w, &e->win) == 0)
-		return (0);
-	if (check_file(text->sp, ".xpm") == 0 ||
-		check_open_file(text->sp) == 0 ||
-		init_texture(text->sp, &e->text_sprite, &e->win) == 0)
+	if (init_texture(text->north, &e->text_data_n, &e->win) == 0
+		|| init_texture(text->south, &e->text_data_s, &e->win) == 0
+		|| init_texture(text->east, &e->text_data_e, &e->win) == 0
+		|| init_texture(text->west, &e->text_data_w, &e->win) == 0
+		|| init_texture(text->sp, &e->text_sprite, &e->win) == 0)
 		return (0);
 	return (1);
 }

@@ -6,7 +6,7 @@
 /*   By: adupuy <adupuy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/07 10:21:16 by adupuy            #+#    #+#             */
-/*   Updated: 2021/02/02 09:56:26 by adupuy           ###   ########.fr       */
+/*   Updated: 2021/02/02 19:28:40 by adupuy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,8 +36,9 @@ void	first_view(t_elts *e)
 void	set_up_the_game(t_elts *e, int save, char *str)
 {
 	init_struct_elts(e);
-	if (ft_parsing_elts(e, str) == 0 || init_window(&e->win, save) == 0
-	|| init_image(e) == 0 || texture(&e->text, e) == 0 || init_sprite(e) == 0)
+	if (ft_parsing_elts(e, str) == 0 || check_open_texture(&e->text) == 0
+		|| init_window(&e->win, save) == 0 || init_image(e) == 0
+		|| texture(&e->text, e) == 0 || init_sprite(e) == 0)
 		return ;
 	init_player(e);
 	if (save == 0)

@@ -6,7 +6,7 @@
 /*   By: adupuy <adupuy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/19 15:13:43 by adupuy            #+#    #+#             */
-/*   Updated: 2021/01/30 16:41:37 by adupuy           ###   ########.fr       */
+/*   Updated: 2021/02/02 17:52:09 by adupuy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,4 +63,21 @@ int		check_open_file(char *name)
 		ret = 0;
 	close(fd);
 	return (ret);
+}
+
+int		check_open_texture(t_texture *text)
+{
+	if (check_open_file(text->north) == 0
+		|| check_open_file(text->south) == 0
+		|| check_open_file(text->east) == 0
+		|| check_open_file(text->west) == 0
+		|| check_open_file(text->sp) == 0)
+		return (error_msg("Error\nOne of the textures is unknow.\n"));
+	if (check_file(text->north, ".xpm") == 0
+		|| check_file(text->south, ".xpm") == 0
+		|| check_file(text->east, ".xpm") == 0
+		|| check_file(text->west, ".xpm") == 0
+		|| check_file(text->sp, ".xpm") == 0)
+		return (error_msg("Error\nOne of the textures is not an .xpm file.\n"));
+	return (1);
 }

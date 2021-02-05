@@ -6,7 +6,7 @@
 /*   By: adupuy <adupuy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/19 14:42:47 by adupuy            #+#    #+#             */
-/*   Updated: 2021/02/04 17:05:00 by adupuy           ###   ########.fr       */
+/*   Updated: 2021/02/05 10:57:55 by adupuy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@
 # include <mlx.h>
 # include "libft.h"
 
+# define M 109
 # define W 119
 # define A 97
 # define S 115
@@ -40,6 +41,17 @@
 # define INFO_HEADER_SIZE 40
 # define BPP 3
 # define BMP_FILE_NAME "bitmap_image.bmp"
+
+# define MINI 0.2
+# define SIZE 32
+
+typedef struct	s_minimap
+{
+	int	display;
+	int	size_w;
+	int	size_h;
+	int	size;
+}				t_minimap;
 
 typedef struct	s_double
 {
@@ -143,10 +155,12 @@ typedef struct	s_texture
 	char	*west;
 	char	*east;
 	char	*sp;
+	char	*sp2;
 }				t_texture;
 
 typedef struct	s_sprite
 {
+	int			num;
 	t_double	pos;
 	double		dist;
 	int			visible;
@@ -205,11 +219,13 @@ typedef struct	s_elts
 	t_text_data	text_data_e;
 	t_text_data	text_data_w;
 	t_text_data	text_sprite;
+	t_text_data	text_sprite2;
 	int			**tab;
 	int			width;
 	int			height;
 	int			num_sp;
 	t_sprite	*tab_sp;
+	t_minimap	minimap;
 }				t_elts;
 
 /*
@@ -336,6 +352,8 @@ void			render_sprites(double *buff, t_elts *e);
 void			sp_is_visible(t_elts *e, t_sprite *sp, double *buff);
 void			draw_sprite_texture
 				(t_sprite *sp, t_elts *e, int x, int first_x);
+void			draw_sprite_texture_next
+				(t_sprite *sp, t_elts *e, int tot_x, int y);
 
 /*
 	********** SPRITE_UTILS **********
@@ -384,4 +402,14 @@ int				error_msg(char *str);
 int				check_file(char *str, char *name);
 int				msg(int num_msg);
 int				msg2(int num_msg);
+
+/*
+	********** DRAW_MINIMAP **********
+*/
+void			player_render(t_elts *e);
+void			map_render(t_elts *e, int i, int j);
+void			ray_render(t_elts *e);
+void			sprite_render(t_elts *e, int j);
+int				display_minimap(t_elts *e);
+
 #endif

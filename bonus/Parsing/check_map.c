@@ -6,7 +6,7 @@
 /*   By: adupuy <adupuy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/23 18:51:42 by adupuy            #+#    #+#             */
-/*   Updated: 2021/02/02 11:19:59 by adupuy           ###   ########.fr       */
+/*   Updated: 2021/02/04 21:14:33 by adupuy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,8 @@ int		check_column(t_elts *e, int x)
 	while (++i < e->height)
 	{
 		if (e->tab[i][x] == 0 || e->tab[i][x] == 2 || e->tab[i][x] == 21
-		|| e->tab[i][x] == 30 || e->tab[i][x] == 35 || e->tab[i][x] == 39)
+		|| e->tab[i][x] == 30 || e->tab[i][x] == 35 || e->tab[i][x] == 39
+		|| e->tab[i][x] == 3)
 			return (msg(1));
 	}
 	return (1);
@@ -120,6 +121,7 @@ int		check_map(t_elts *e)
 	complete_tab(e, -1);
 	if ((check_player(e, 0) == 0) || (check_space(e, 0, -1, -1) == 0)
 	|| (check_space(e, 2, -1, -1) == 0)
+	|| (check_space(e, 3, -1, -1) == 0)
 	|| (check_space(e, e->player.dir, -1, -1) == 0)
 	|| (check_column(e, e->width - 1) == 0)
 	|| (check_column(e, 0) == 0))

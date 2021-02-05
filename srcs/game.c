@@ -6,7 +6,7 @@
 /*   By: adupuy <adupuy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/02 09:35:24 by adupuy            #+#    #+#             */
-/*   Updated: 2021/02/02 10:51:38 by adupuy           ###   ########.fr       */
+/*   Updated: 2021/02/04 17:05:11 by adupuy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,12 +68,12 @@ void	player_update(t_elts *e)
 
 	e->player.rotate_radius += e->player.turn_direct * e->player.rotate_speed;
 	move_step = (double)e->player.walk_direct * e->player.move_speed;
-	angle = e->player.walk_sideways ? M_PI / 2 : 0;
+	angle = e->player.walk_sideways == 1 ? M_PI / 2 : 0;
 	new_pos_x = e->player.pos.x + cos(e->player.rotate_radius + angle)
 		* move_step;
 	new_pos_y = e->player.pos.y + sin(e->player.rotate_radius + angle) *
 		move_step;
-	if (is_wall(new_pos_x, new_pos_y, e) == 0)
+	if (is_wall2(new_pos_x, new_pos_y, e) == 0)
 	{
 		e->player.pos.x = new_pos_x;
 		e->player.pos.y = new_pos_y;

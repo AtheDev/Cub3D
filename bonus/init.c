@@ -6,7 +6,7 @@
 /*   By: adupuy <adupuy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/01 19:17:06 by adupuy            #+#    #+#             */
-/*   Updated: 2021/02/02 09:42:18 by adupuy           ###   ########.fr       */
+/*   Updated: 2021/02/04 21:24:25 by adupuy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,12 +32,16 @@ int		init_window(t_win *win, int save)
 	if (save == 0)
 	{
 		resize_window(win);
-		win->win_ptr = mlx_new_window(win->mlx_ptr, win->x, win->y, "cub3d");
+		win->win_ptr = mlx_new_window(win->mlx_ptr, win->x, win->y, "cub3D");
 		if (win->win_ptr == NULL)
 			return (0);
 	}
 	else
+	{
+		if (win->x * win->y > 1000000000 || win->x * win->y <= 0)
+			return (error_msg("Error\nResolution too high for saving.\n"));
 		win->win_ptr = NULL;
+	}
 	return (1);
 }
 
@@ -66,4 +70,5 @@ void	init_player(t_elts *e)
 		e->player.rotate_radius = M_PI;
 	e->player.move_speed = 0.1;
 	e->player.rotate_speed = 2 * (M_PI / 180);
+	e->minimap.display = 0;
 }

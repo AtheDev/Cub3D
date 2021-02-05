@@ -6,7 +6,7 @@
 /*   By: adupuy <adupuy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/21 15:17:47 by adupuy            #+#    #+#             */
-/*   Updated: 2021/02/02 11:17:29 by adupuy           ###   ########.fr       */
+/*   Updated: 2021/02/02 18:56:40 by adupuy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ int	check_error_win(t_elts *e, char *line, int i)
 			return (0);
 		++i;
 	}
-	if (e->win.x == 0 || e->win.y == 0)
+	if (e->win.x <= 0 || e->win.y <= 0)
 		return (0);
 	return (1);
 }

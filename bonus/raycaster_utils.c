@@ -6,7 +6,7 @@
 /*   By: adupuy <adupuy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/14 13:05:52 by adupuy            #+#    #+#             */
-/*   Updated: 2021/01/25 19:16:10 by adupuy           ###   ########.fr       */
+/*   Updated: 2021/02/04 17:57:48 by adupuy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,4 +60,30 @@ void	init_ray(t_ray *ray)
 double	dist_between_two_points(double x1, double x2, double y1, double y2)
 {
 	return (sqrt(((x1 - x2) * (x1 - x2)) + ((y1 - y2) * (y1 - y2))));
+}
+
+int		is_wall2(double x, double y, t_elts *e)
+{
+	int	map_ind_x;
+	int	map_ind_y;
+
+	if (x < 0. || x >= (double)e->width || y < 0. || y >= (double)e->height)
+		return (1);
+	map_ind_x = floor(x);
+	map_ind_y = floor(y);
+	if (e->player.rotate_radius == 0)
+	{
+		if (e->player.walk_sideways == 1 && e->player.walk_direct == 1)
+			return (e->tab[(int)(y + 0.1)][map_ind_x] != 0);
+		if (e->player.walk_sideways == 1 && e->player.walk_direct == -1)
+			return (e->tab[(int)(y - 0.1)][map_ind_x] != 0);
+	}
+	if (e->player.rotate_radius == M_PI)
+	{
+		if (e->player.walk_sideways == 1 && e->player.walk_direct == -1)
+			return (e->tab[(int)(y + 0.1)][map_ind_x] != 0);
+		if (e->player.walk_sideways == 1 && e->player.walk_direct == 1)
+			return (e->tab[(int)(y - 0.1)][map_ind_x] != 0);
+	}
+	return (e->tab[map_ind_y][map_ind_x] != 0);
 }
