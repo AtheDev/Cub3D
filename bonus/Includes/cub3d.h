@@ -6,7 +6,7 @@
 /*   By: adupuy <adupuy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/19 14:42:47 by adupuy            #+#    #+#             */
-/*   Updated: 2021/02/05 11:29:29 by adupuy           ###   ########.fr       */
+/*   Updated: 2021/02/06 20:27:40 by adupuy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -274,6 +274,11 @@ int				check_path(char *line, int i);
 int				check_double_texture(t_elts *e);
 
 /*
+	********** CHECK_ERROR_UTILS **********
+*/
+int				check_error_color_next(char *line, int *i);
+
+/*
 	********* CHECK_MAP *********
 */
 int				check_map(t_elts *e);
@@ -385,9 +390,18 @@ void			init_corr_pad(char corr_pad[4]);
 	********** INIT **********
 */
 void			resize_window(t_win *win);
-int				init_window(t_win *win, int save);
+int				init_window(t_win *win);
+int				init_win(t_win *win, int save);
 int				init_image(t_elts *e);
 void			init_player(t_elts *e);
+
+/*
+	********** COLLISION **********
+*/
+int				collision_north(double x, double y, t_elts *e);
+int				collision_south(double x, double y, t_elts *e);
+int				collision_west(double x, double y, t_elts *e);
+int				collision_east(double x, double y, t_elts *e);
 
 /*
 	********** END_OF_GAME **********

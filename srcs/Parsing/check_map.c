@@ -6,7 +6,7 @@
 /*   By: adupuy <adupuy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/23 18:51:42 by adupuy            #+#    #+#             */
-/*   Updated: 2021/02/02 18:19:23 by adupuy           ###   ########.fr       */
+/*   Updated: 2021/02/06 19:22:17 by adupuy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,8 @@ int		check_player(t_elts *e, int count)
 				e->tab[j][i] + 48 == 83 || e->tab[j][i] + 48 == 87)
 			{
 				count++;
-				e->player.pos.x = (double)i + 0.5;
-				e->player.pos.y = (double)j + 0.5;
+				e->player.pos.x = (double)i + 0.5 + 0.0001;
+				e->player.pos.y = (double)j + 0.5 + 0.0001;
 				e->player.dir = e->tab[j][i];
 				e->tab[j][i] = 0;
 			}
@@ -58,8 +58,8 @@ int		check_space(t_elts *e, int num, int j, int i)
 {
 	while (++j < e->height)
 	{
-		i = -1;
-		while (++i < e->width)
+		i = 0;
+		while (++i < e->width - 1)
 			if ((j == 0 && e->tab[j][i] == num) ||
 			((j == e->height - 1) && e->tab[j][i] == num))
 				return (msg(1));

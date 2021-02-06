@@ -6,7 +6,7 @@
 /*   By: adupuy <adupuy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/23 09:59:57 by adupuy            #+#    #+#             */
-/*   Updated: 2021/02/05 11:30:35 by adupuy           ###   ########.fr       */
+/*   Updated: 2021/02/05 16:57:16 by adupuy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,7 +102,7 @@ char	*ft_subtext(char *str, char *line, int i, int count)
 	return (str);
 }
 
-int		path_texture(t_elts *e, char *line, int i)
+int		path_texture(t_elts *e, char *line, int i, int count)
 {
 	if ((count = check_path(line, i)) == 0)
 		return (0);

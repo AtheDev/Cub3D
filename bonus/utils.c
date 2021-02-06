@@ -6,7 +6,7 @@
 /*   By: adupuy <adupuy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/30 16:18:22 by adupuy            #+#    #+#             */
-/*   Updated: 2021/02/02 09:56:00 by adupuy           ###   ########.fr       */
+/*   Updated: 2021/02/06 16:46:19 by adupuy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,11 +66,13 @@ int	msg2(int num_msg)
 		(error_msg("Error\nCeiling color wrong or defined twice.\n"));
 	if (num_msg == 4)
 		(error_msg("Error\nWrong textures or defined twice.\n"));
+	if (num_msg == 5)
+		(error_msg("Error\nOne of the textures files contains nothings"));
 	return (0);
 }
 
 int	error_msg(char *str)
 {
-	write(1, str, ft_strlen(str));
+	write(2, str, ft_strlen(str));
 	return (0);
 }

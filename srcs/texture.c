@@ -6,7 +6,7 @@
 /*   By: adupuy <adupuy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/18 21:59:00 by adupuy            #+#    #+#             */
-/*   Updated: 2021/02/02 17:53:43 by adupuy           ###   ########.fr       */
+/*   Updated: 2021/02/06 13:10:17 by adupuy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ int		init_texture(char *text_name, t_text_data *t, t_win *win)
 	t->text_ptr = mlx_xpm_file_to_image(win->mlx_ptr, text_name,
 						&t->width, &t->height);
 	if (t->text_ptr == NULL)
-		return (0);
+		return (msg2(5));
 	t->addr = mlx_get_data_addr(t->text_ptr, &t->bpp,
 					&t->size_line, &t->endian);
 	return (1);

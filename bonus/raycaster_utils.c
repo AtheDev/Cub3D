@@ -6,7 +6,7 @@
 /*   By: adupuy <adupuy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/14 13:05:52 by adupuy            #+#    #+#             */
-/*   Updated: 2021/02/04 17:57:48 by adupuy           ###   ########.fr       */
+/*   Updated: 2021/02/06 20:20:38 by adupuy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,18 +72,12 @@ int		is_wall2(double x, double y, t_elts *e)
 	map_ind_x = floor(x);
 	map_ind_y = floor(y);
 	if (e->player.rotate_radius == 0)
-	{
-		if (e->player.walk_sideways == 1 && e->player.walk_direct == 1)
-			return (e->tab[(int)(y + 0.1)][map_ind_x] != 0);
-		if (e->player.walk_sideways == 1 && e->player.walk_direct == -1)
-			return (e->tab[(int)(y - 0.1)][map_ind_x] != 0);
-	}
+		return (collision_east(x, y, e));
 	if (e->player.rotate_radius == M_PI)
-	{
-		if (e->player.walk_sideways == 1 && e->player.walk_direct == -1)
-			return (e->tab[(int)(y + 0.1)][map_ind_x] != 0);
-		if (e->player.walk_sideways == 1 && e->player.walk_direct == 1)
-			return (e->tab[(int)(y - 0.1)][map_ind_x] != 0);
-	}
+		return (collision_west(x, y, e));
+	if (e->player.rotate_radius == M_PI_2)
+		return (collision_south(x, y, e));
+	if (e->player.rotate_radius == 3 * M_PI_2)
+		return (collision_north(x, y, e));
 	return (e->tab[map_ind_y][map_ind_x] != 0);
 }

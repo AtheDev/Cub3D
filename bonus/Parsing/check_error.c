@@ -6,7 +6,7 @@
 /*   By: adupuy <adupuy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/21 15:17:47 by adupuy            #+#    #+#             */
-/*   Updated: 2021/02/04 21:03:22 by adupuy           ###   ########.fr       */
+/*   Updated: 2021/02/06 12:26:10 by adupuy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,24 +27,21 @@ int	check_error_win(t_elts *e, char *line, int i)
 
 int	check_error_color(char *line, int i)
 {
-	int	comma;
-	int	number;
-
-	comma = 0;
-	number = 0;
-	while (line && line[i])
+	if (ft_isdigit(line[i]))
 	{
-		if (ft_isdigit(line[i]) && (number == 0 ||
-			line[i - 1] == ' ' || line[i - 1] == ','))
-			number++;
-		else if (line[i] == ',')
-			comma++;
-		else if (line[i] != ',' && line[i] != ' ' && !ft_isdigit(line[i]))
+		while (ft_isdigit(line[i]))
+			i++;
+		if (check_error_color_next(line, &i) == 0)
 			return (0);
-		i++;
-	}
-	if (number == 3 && comma == 2)
+		if (check_error_color_next(line, &i) == 0)
+			return (0);
+		if (line[i] == ' ')
+			while (line[i] == ' ')
+				i++;
+		if (line[i] != '\0')
+			return (0);
 		return (1);
+	}
 	return (0);
 }
 

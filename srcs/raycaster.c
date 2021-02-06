@@ -6,7 +6,7 @@
 /*   By: adupuy <adupuy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/14 13:01:16 by adupuy            #+#    #+#             */
-/*   Updated: 2021/02/04 17:15:22 by adupuy           ###   ########.fr       */
+/*   Updated: 2021/02/06 20:24:55 by adupuy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,15 +117,17 @@ void	ray_cast(t_elts *e, int x)
 
 void	cast_all_rays(t_elts *e, double *buf)
 {
-	int x;
+	int		x;
+	float	dist;
 
 	x = -1;
-	e->ray.angle = e->player.rotate_radius - (e->player.fov / 2);
+	dist = (e->win.x / 2) / tan(e->player.fov / 2);
 	while (++x < e->win.x)
 	{
+		e->ray.angle = e->player.rotate_radius +
+			atan((x - (e->win.x / 2)) / dist);
 		init_ray(&e->ray);
 		ray_cast(e, x);
 		buf[x] = e->ray.dist;
-		e->ray.angle += e->player.fov / e->win.x;
 	}
 }

@@ -6,7 +6,7 @@
 /*   By: adupuy <adupuy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/01 19:17:06 by adupuy            #+#    #+#             */
-/*   Updated: 2021/02/02 20:44:16 by adupuy           ###   ########.fr       */
+/*   Updated: 2021/02/06 13:08:59 by adupuy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,11 +24,16 @@ void	resize_window(t_win *win)
 		win->y = height_screen;
 }
 
-int		init_window(t_win *win, int save)
+int		init_window(t_win *win)
 {
 	win->mlx_ptr = mlx_init();
 	if (win->mlx_ptr == NULL)
 		return (0);
+	return (1);
+}
+
+int		init_win(t_win *win, int save)
+{
 	if (save == 0)
 	{
 		resize_window(win);

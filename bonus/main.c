@@ -6,7 +6,7 @@
 /*   By: adupuy <adupuy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/07 10:21:16 by adupuy            #+#    #+#             */
-/*   Updated: 2021/02/05 09:38:52 by adupuy           ###   ########.fr       */
+/*   Updated: 2021/02/06 16:46:01 by adupuy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,15 +30,16 @@ void	first_view(t_elts *e)
 	if (generate_bmp_image(e) == 0)
 		error_msg("Error\nProblem while creating bitmap file.\n");
 	else
-		error_msg("Bitmap file created.\n");
+		write(1, "Bitmap file created.\n", 21);
 }
 
 void	set_up_the_game(t_elts *e, int save, char *str)
 {
 	init_struct_elts(e);
 	if (ft_parsing_elts(e, str) == 0 || check_open_texture(&e->text) == 0
-		|| init_window(&e->win, save) == 0 || init_image(e) == 0
-		|| texture(&e->text, e) == 0 || init_sprite(e) == 0)
+		|| init_window(&e->win) == 0 || texture(&e->text, e) == 0
+		|| init_sprite(e) == 0 || init_win(&e->win, save) == 0
+		|| init_image(e) == 0)
 		return ;
 	init_player(e);
 	if (save == 0)
