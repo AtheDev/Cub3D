@@ -6,7 +6,7 @@
 #    By: adupuy <adupuy@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/01/06 11:22:00 by adupuy            #+#    #+#              #
-#    Updated: 2021/02/06 19:49:51 by adupuy           ###   ########.fr        #
+#    Updated: 2021/02/09 15:13:34 by adupuy           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -84,7 +84,6 @@ LIBS = -lm -lft -lmlx -lXext -lX11
 all: $(NAME)
 
 $(NAME): $(OBJS)
-	$(RM) $(OBJS_BONUS)
 	make -C minilibx-linux
 	make bonus -C libft
 	$(CC) $(CFLAGS) $(LDFLAGS) $(OBJS) -o $(NAME) $(LIBS)
@@ -93,7 +92,6 @@ $(OBJS): %.o: %.c
 	$(CC) $(CFLAGS) $(INCLD) -o $@ -c $<
 
 bonus: $(OBJS_BONUS)
-	$(RM) $(OBJS)
 	make -C minilibx-linux
 	make bonus -C libft
 	$(CC) $(CFLAGS) $(LDFLAGS) $(OBJS_BONUS) -o $(NAME) $(LIBS)

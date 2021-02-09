@@ -6,7 +6,7 @@
 /*   By: adupuy <adupuy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/30 16:18:22 by adupuy            #+#    #+#             */
-/*   Updated: 2021/02/06 16:46:19 by adupuy           ###   ########.fr       */
+/*   Updated: 2021/02/09 14:21:41 by adupuy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,8 @@ int	msg2(int num_msg)
 		(error_msg("Error\nWrong textures or defined twice.\n"));
 	if (num_msg == 5)
 		(error_msg("Error\nOne of the textures files contains nothings"));
+	if (num_msg == 6)
+		(error_msg("Error\nResolution too high or negative for saving.\n"));
 	return (0);
 }
 

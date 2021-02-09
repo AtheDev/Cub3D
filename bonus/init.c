@@ -6,7 +6,7 @@
 /*   By: adupuy <adupuy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/01 19:17:06 by adupuy            #+#    #+#             */
-/*   Updated: 2021/02/06 13:19:17 by adupuy           ###   ########.fr       */
+/*   Updated: 2021/02/09 14:21:36 by adupuy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ int		init_win(t_win *win, int save)
 	else
 	{
 		if (win->x * win->y > 1000000000 || win->x * win->y <= 0)
-			return (error_msg("Error\nResolution too high for saving.\n"));
+			return (msg2(6));
 		win->win_ptr = NULL;
 	}
 	return (1);
